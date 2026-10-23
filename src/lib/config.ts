@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-export const DATA_DIR = path.resolve(process.env.DATA_DIR || './data');
+export const DATA_DIR = path.resolve(process.env.DATA_DIR || (process.env.VERCEL ? '/tmp/postmark' : './data'));
 export const AUDIO_DIR = path.join(DATA_DIR, 'audio');
 export const COVER_DIR = path.join(DATA_DIR, 'covers');
 export const TMP_DIR = path.join(DATA_DIR, 'tmp');

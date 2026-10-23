@@ -10,7 +10,10 @@ function client(): Client {
     if (process.env.VERCEL && !process.env.DATABASE_URL) {
       throw new Error('DATABASE_URL is required on Vercel. Use a hosted libSQL/Turso database.');
     }
-    for (const d of [DATA_DIR, AUDIO_DIR, COVER_DIR, TMP_DIR]) fs.mkdirSync(d, { recursive: true });
+    // Vercel uses hosted storage for files; only create local folders when the database is local.
+    if (DB_URL.startsWith('file:')) {
+      for (const d of [DATA_DIR, AUDIO_DIR, COVER_DIR, TMP_DIR]) fs.mkdirSync(d, { recursive: true });
+    }
     g.__pm_db = createClient({ url: DB_URL, authToken: process.env.DATABASE_AUTH_TOKEN });
   }
   return g.__pm_db;
